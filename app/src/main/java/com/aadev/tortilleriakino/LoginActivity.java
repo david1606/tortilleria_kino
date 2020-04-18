@@ -13,14 +13,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-
+    private TextInputLayout emailInputEditText, passwordInputEditText;
     private EditText correo, contra;
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,15 +31,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
-        correo = findViewById(R.id.user_login);
-        contra = findViewById(R.id.password_login);
+        emailInputEditText = findViewById(R.id.text_input_email);
+        passwordInputEditText = findViewById(R.id.text_input_password);
+
         Button nextBtn = findViewById(R.id.next_btn);
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String correoStr, contrasenia;
-                correoStr = correo.getText().toString();
-                contrasenia = contra.getText().toString();
+                correoStr = emailInputEditText.getEditText().getText().toString();
+                contrasenia = passwordInputEditText.getEditText().getText().toString();
                 signIn(correoStr, contrasenia);
             }
         });
@@ -61,8 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                        // ...
                     }
                 });
     }
