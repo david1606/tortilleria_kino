@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputLayout emailInputEditText, passwordInputEditText;
     private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
     private String emailStr, passwordStr;
 
     @Override
@@ -30,6 +32,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+        if (mAuth.getCurrentUser() != null) {
+            Intent main = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(main);
+        }
+
         emailInputEditText = findViewById(R.id.text_input_email);
         passwordInputEditText = findViewById(R.id.text_input_password);
 
