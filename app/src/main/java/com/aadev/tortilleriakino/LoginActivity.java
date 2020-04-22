@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputLayout emailInputEditText, passwordInputEditText;
     private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
     private String emailStr, passwordStr;
 
     @Override
@@ -32,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
 
         if (mAuth.getCurrentUser() != null) {
             Intent main = new Intent(LoginActivity.this, MainActivity.class);
@@ -70,7 +68,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, "Done", Toast.LENGTH_SHORT).show();
                     Intent main = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(main);
                     finish();
@@ -84,9 +81,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkError(String error) {
-        //There is no user record corresponding to this identifier. The user may have been deleted.
-        //We have blocked all requests from this device due to unusual activity. Try again later. [ Too many unsuccessful login attempts. Please try again later. ]
-        //The password is invalid or the user does not have a password
         switch (error) {
             case "There is no user record corresponding to this identifier. The user may have been deleted.":
                 emailInputEditText.setError("Correo no registrado");

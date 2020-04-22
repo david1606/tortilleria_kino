@@ -38,8 +38,8 @@
             android:id="@+id/text_input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             app:errorEnabled="true">
 
@@ -71,14 +71,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
+            style="@style/button_normal"
             android:id="@+id/next_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/button_background"
-            android:text="Siguiente"
-            android:textAllCaps="false"
-            android:textColor="#fff" />
+            android:text="Siguiente" />
 
     </LinearLayout>
 
