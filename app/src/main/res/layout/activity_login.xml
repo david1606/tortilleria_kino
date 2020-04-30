@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/image"
             android:layout_margin="7dp"
-            android:background="@drawable/card_back"
+            android:background="@drawable/card_background"
             android:orientation="vertical">
 
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,29 +31,28 @@ import java.util.Objects;
 
 public class SellFragment extends Fragment {
 
-    private ArrayList<Clients> clients;
+    private ArrayList<Clients> clientsList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private ProgressBar mainProgressBar;
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+                             final ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_sell, container, false);
 
         mRecyclerView = root.findViewById(R.id.recycler_view_sell);
         mainProgressBar = root.findViewById(R.id.progress_sell_fragment);
-        clients = this.getClientsInfo();
+        clientsList = this.getClientsInfo();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
-        mAdapter = new SellAdapter(clients,
-                new SellAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Clients client, int position) {
-                        Intent orderAct = new Intent(inflater.getContext(), OrderActivity.class);
-                        orderAct.putExtra("CLIENT", client.getClient_name());
-                        startActivity(orderAct);
-                    }
-                });
+        mAdapter = new SellAdapter(clientsList, new SellAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Clients client, int position) {
+                Intent orderAct = new Intent(inflater.getContext(), OrderActivity.class);
+                orderAct.putExtra("CLIENT", client.getClient_name());
+                startActivity(orderAct);
+            }
+        });
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -73,7 +73,7 @@ public class SellFragment extends Fragment {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                             Clients query = documentSnapshot.toObject(Clients.class);
-                            clients.add(query);
+                            clientsList.add(query);
                             mAdapter.notifyDataSetChanged();
                             mRecyclerView.setVisibility(View.VISIBLE);
                             mainProgressBar.setVisibility(View.GONE);
