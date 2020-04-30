@@ -10,9 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".OrderActivity"
+            android:theme="@style/AppTheme.noActionBar" />
+        <activity
             android:name=".MainActivity"
             android:label="IDK"
-            android:theme="@style/AppTheme.noActionBar" />
+            android:theme="@style/AppTheme.noActionBar.main" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.noActionBar">
