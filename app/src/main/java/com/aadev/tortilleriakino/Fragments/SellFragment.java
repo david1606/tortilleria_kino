@@ -50,6 +50,7 @@ public class SellFragment extends Fragment {
             public void onItemClick(Clients client, int position) {
                 Intent orderAct = new Intent(inflater.getContext(), OrderActivity.class);
                 orderAct.putExtra("CLIENT", client.getClient_name());
+                orderAct.putExtra("DEFAULTS", new int[]{1, 2, 3});
                 startActivity(orderAct);
             }
         });

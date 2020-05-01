@@ -1,11 +1,11 @@
 package com.aadev.tortilleriakino.Classes;
 
-public class ItemSell {
+public class Articles {
     private String article;
     private double price;
     private int quantity;
 
-    public ItemSell(String article, double price, int quantity) {
+    public Articles(String article, double price, int quantity) {
         this.article = article;
         this.price = price;
         this.quantity = quantity;
