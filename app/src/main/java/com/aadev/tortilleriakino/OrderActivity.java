@@ -46,14 +46,14 @@ public class OrderActivity extends AppCompatActivity {
         articels.add(new Articles("Tortillas de harina 12pz", 12, defaults[0]));
         articels.add(new Articles("Tortillas de harina 20pz", 20, defaults[1]));
         articels.add(new Articles("Tortillas de Maíz 700g", 14, defaults[2]));
-        articels.add(new Articles("Totopo Natural 360g", 13, defaults[3]));
-        articels.add(new Articles("Totopo Sazonado", 17, defaults[4]));
-        articels.add(new Articles("Chorizo Don Ely 250g", 13, defaults[5]));
-        articels.add(new Articles("Cartera de Machaca 10/50g", 120, defaults[6]));
-        articels.add(new Articles("Machaca Kino 100g", 23, defaults[7]));
-        articels.add(new Articles("Tortilla Maiz 1kg", 15, defaults[8]));
-        articels.add(new Articles("Totopo Natural 700g", 20, defaults[9]));
-        articels.add(new Articles("Tortillas taquera 20pz", 16, defaults[10]));
+        articels.add(new Articles("Totopo Natural 360g", 13, defaults[0]));
+        articels.add(new Articles("Totopo Sazonado", 17, defaults[1]));
+        articels.add(new Articles("Chorizo Don Ely 250g", 13, defaults[1]));
+        articels.add(new Articles("Cartera de Machaca 10/50g", 120, defaults[1]));
+        articels.add(new Articles("Machaca Kino 100g", 23, defaults[1]));
+        articels.add(new Articles("Tortilla Maiz 1kg", 15, defaults[1]));
+        articels.add(new Articles("Totopo Natural 700g", 20, defaults[1]));
+        articels.add(new Articles("Tortillas taquera 20pz", 16, defaults[1]));
 
 
         updateTotalPrice();
