@@ -43,7 +43,8 @@ public class ClientViewActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent orderAct = new Intent(ClientViewActivity.this, MainActivity.class);
+        startActivity(orderAct);
     }
 
     public void out(View view) {
