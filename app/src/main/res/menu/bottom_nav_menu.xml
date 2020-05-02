@@ -4,6 +4,10 @@
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home"
         android:title="Vender" />
+    <item
+        android:id="@+id/navigation_delivered"
+        android:icon="@drawable/ic_home"
+        android:title="Entregados" />
 
     <item
         android:id="@+id/navigation_dashboard"

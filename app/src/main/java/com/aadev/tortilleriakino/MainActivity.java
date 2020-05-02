@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.aadev.tortilleriakino.Fragments.DebtsFragment;
+import com.aadev.tortilleriakino.Fragments.DeliveredFragment;
 import com.aadev.tortilleriakino.Fragments.SellFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.navigation_dashboard:
                     selectedFragment = new DebtsFragment();
+                    break;
+                case R.id.navigation_delivered:
+                    selectedFragment = new DeliveredFragment();
                     break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, selectedFragment).commit();

@@ -1,10 +1,10 @@
 package com.aadev.tortilleriakino;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -96,8 +96,11 @@ public class OrderActivity extends AppCompatActivity {
                 .setMessage("¿Esta seguro que desea salir?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
-
+                        Intent orderAct = new Intent(OrderActivity.this, ClientViewActivity.class);
+                        orderAct.putExtra("CLIENT", client);
+                        //orderAct.putExtra("DEFAULTS", new int[]{1, 2, 3});
+                        startActivity(orderAct);
+                        finish();
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
