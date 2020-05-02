@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimaryLight">
@@ -16,7 +17,8 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:src="@drawable/ic_category"
-            android:tint="@color/colorWhite" />
+            android:tint="@color/colorWhite"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/text_view_product_name"
@@ -27,7 +29,8 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/image_view"
             android:text="Tortillas harina"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/text_view_price"
@@ -38,7 +41,8 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:text="$10"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            tools:ignore="HardcodedText" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -51,8 +55,9 @@
             android:id="@+id/add_button"
             style="@style/order_action_buttons"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/add_circle"
-            android:tint="@color/colorWhite" />
+            android:src="@drawable/ic_add_circle"
+            android:tint="@color/colorWhite"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/edit_text_number_articles"
@@ -64,17 +69,18 @@
             android:layout_marginEnd="20dp"
             android:layout_toStartOf="@+id/add_button"
             android:text="10"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/remove_button"
             style="@style/order_action_buttons"
             android:layout_toStartOf="@id/edit_text_number_articles"
-            android:src="@drawable/remove_circle"
-            android:tint="@color/colorWhite" />
+            android:src="@drawable/ic_remove_circle"
+            android:tint="@color/colorWhite"
+            tools:ignore="ContentDescription" />
 
     </RelativeLayout>
-
 
     <View
         android:layout_width="match_parent"

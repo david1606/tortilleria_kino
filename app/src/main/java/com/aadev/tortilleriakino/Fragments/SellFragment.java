@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aadev.tortilleriakino.Adapters.SellAdapter;
 import com.aadev.tortilleriakino.Classes.Clients;
+import com.aadev.tortilleriakino.ClientViewActivity;
 import com.aadev.tortilleriakino.OrderActivity;
 import com.aadev.tortilleriakino.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,7 +49,7 @@ public class SellFragment extends Fragment {
         mAdapter = new SellAdapter(clientsList, new SellAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Clients client, int position) {
-                Intent orderAct = new Intent(inflater.getContext(), OrderActivity.class);
+                Intent orderAct = new Intent(inflater.getContext(), ClientViewActivity.class);
                 orderAct.putExtra("CLIENT", client.getClient_name());
                 orderAct.putExtra("DEFAULTS", new int[]{1, 2, 3});
                 startActivity(orderAct);

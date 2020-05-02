@@ -12,16 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="55dp">
 
-        <!--        <ImageView
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="15dp"
-                    android:onClick="signOut"
-                    android:src="@drawable/ic_log_out"
-                    android:tint="@color/colorWhite"
-                    tools:ignore="ContentDescription" />-->
+        <ImageView
+            style="@style/app_bar_icon"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_arrow_back"
+            android:onClick="out"
+            android:tint="@color/colorWhite"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/client_name"

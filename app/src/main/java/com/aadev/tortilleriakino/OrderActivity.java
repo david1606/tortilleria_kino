@@ -1,9 +1,12 @@
 package com.aadev.tortilleriakino;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,11 +19,12 @@ import java.util.ArrayList;
 
 public class OrderActivity extends AppCompatActivity {
     private String client;
+    private int[] defaults;
     private ArrayList<Articles> articels;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private TextView clientName, totalET;
-    private int[] defaults;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +86,28 @@ public class OrderActivity extends AppCompatActivity {
 
     }
 
+    boolean option = false;
+
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show();
-        super.onBackPressed();
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("¿Salir?")
+                .setMessage("¿Esta seguro que desea salir?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert);
+        alert.show();
+
+
+    }
+
+    public void out(View view) {
+        onBackPressed();
     }
 }
