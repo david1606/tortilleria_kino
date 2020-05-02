@@ -50,7 +50,7 @@ public class OrderActivity extends AppCompatActivity {
         articels.add(new Articles("Totopo Sazonado", 17, defaults[4]));
         articels.add(new Articles("Chorizo Don Ely 250g", 13, defaults[5]));
         articels.add(new Articles("Cartera de Machaca 10/50g", 120, defaults[6]));
-        articels.add(new Articles("Machaca 100g", 23, defaults[7]));
+        articels.add(new Articles("Machaca Kino 100g", 23, defaults[7]));
         articels.add(new Articles("Tortilla Maiz 1kg", 15, defaults[8]));
         articels.add(new Articles("Totopo Natural 700g", 20, defaults[9]));
         articels.add(new Articles("Tortillas taquera 20pz", 16, defaults[10]));
