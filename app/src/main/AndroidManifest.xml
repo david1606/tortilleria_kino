@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ClientViewActivity"
-            android:theme="@style/AppTheme.noActionBar"/>
+        <activity android:name=".TempoActivity">
+        </activity>
+        <activity
+            android:name=".ClientViewActivity"
+            android:theme="@style/AppTheme.noActionBar" />
         <activity
             android:name=".OrderActivity"
             android:theme="@style/AppTheme.noActionBar" />

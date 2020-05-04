@@ -14,11 +14,9 @@
         android:layout_height="55dp">
 
         <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
+            android:layout_marginEnd="5dp"
+            style="@style/app_bar_icon"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
             android:onClick="signOut"
             android:src="@drawable/ic_log_out"
             android:tint="@color/colorWhite"

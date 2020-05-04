@@ -15,8 +15,8 @@
         <ImageView
             style="@style/app_bar_icon"
             android:layout_marginStart="5dp"
-            android:src="@drawable/ic_arrow_back"
             android:onClick="out"
+            android:src="@drawable/ic_arrow_back"
             android:tint="@color/colorWhite"
             tools:ignore="ContentDescription" />
 
@@ -29,11 +29,6 @@
             android:text="@string/app_name"
             tools:ignore="RelativeOverlap" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimaryDark" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -50,10 +45,38 @@
             android:layout_margin="10dp"
             android:text="Pedidos" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/orders_text"
+            android:layout_margin="5dp"
+            android:background="@drawable/card_foreground">
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/text_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:text="No hay pedidos realizados" />
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/text"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_remove_circle"
+                android:tint="@color/colorWhite" />
+
+        </RelativeLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/orders_text" />
+            android:layout_below="@id/orders_text"
+            android:layout_margin="5dp" />
 
     </RelativeLayout>
 

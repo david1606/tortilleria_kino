@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aadev.tortilleriakino.Adapters.ItemsAdapter;
 import com.aadev.tortilleriakino.Classes.Articles;
+import com.aadev.tortilleriakino.Classes.Keys;
 
 import java.util.ArrayList;
 
 public class OrderActivity extends AppCompatActivity {
-    private String client;
+    private String client, docRef;
     private int[] defaults;
     private ArrayList<Articles> articels;
     private RecyclerView mRecyclerView;
@@ -37,10 +39,12 @@ public class OrderActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            client = bundle.getString("CLIENT");
+            client = bundle.getString(new Keys().getCLIENT_KEY());
+            defaults = bundle.getIntArray(new Keys().getDEFAULT_VALUES_KEY());
+            docRef = bundle.getString(new Keys().getDOC_REF_KEY());
             clientName.setText(client);
-            defaults = bundle.getIntArray("DEFAULTS");
         }
+
         articels = new ArrayList<Articles>() {{
         }};
         articels.add(new Articles("Tortillas de harina 12pz", 12, defaults[0]));
@@ -55,9 +59,7 @@ public class OrderActivity extends AppCompatActivity {
         articels.add(new Articles("Totopo Natural 700g", 20, defaults[1]));
         articels.add(new Articles("Tortillas taquera 20pz", 16, defaults[1]));
 
-
         updateTotalPrice();
-        ;
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new ItemsAdapter(articels, new ItemsAdapter.OnAddItemClickListener() {
@@ -71,10 +73,14 @@ public class OrderActivity extends AppCompatActivity {
         }, new ItemsAdapter.OnRemoveItemClickListener() {
             @Override
             public void onItemClick(Articles articles, int position) {
-                int newQuantity = articles.getQuantity() - 1;
-                articels.get(position).setQuantity(newQuantity);
-                mAdapter.notifyDataSetChanged();
-                updateTotalPrice();
+                if (articles.getQuantity() != 0) {
+                    int newQuantity = articles.getQuantity() - 1;
+
+                    articels.get(position).setQuantity(newQuantity);
+                    mAdapter.notifyDataSetChanged();
+                    updateTotalPrice();
+                }
+
             }
         });
         mRecyclerView.setHasFixedSize(true);
@@ -92,28 +98,25 @@ public class OrderActivity extends AppCompatActivity {
             total = total + (price * quantity);
         }
         totalET.setText("$" + total);
-
     }
-
-    boolean option = false;
 
     @Override
     public void onBackPressed() {
-
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("¿Salir?")
                 .setMessage("¿Esta seguro que desea salir?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent orderAct = new Intent(OrderActivity.this, ClientViewActivity.class);
-                        orderAct.putExtra("CLIENT", client);
-                        //orderAct.putExtra("DEFAULTS", new int[]{1, 2, 3});
+                        orderAct.putExtra(new Keys().getCLIENT_KEY(), client);
+                        orderAct.putExtra(new Keys().getDEFAULT_VALUES_KEY(), defaults);
+                        orderAct.putExtra(new Keys().getDOC_REF_KEY(), docRef);
                         startActivity(orderAct);
                         finish();
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
-                .setIcon(android.R.drawable.ic_dialog_alert);
+                .setIcon(R.drawable.ic_report_problem);
         alert.show();
 
 

@@ -44,9 +44,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     selectedFragment = new SellFragment();
                     break;
-                case R.id.navigation_dashboard:
-                    selectedFragment = new DebtsFragment();
-                    break;
                 case R.id.navigation_delivered:
                     selectedFragment = new DeliveredFragment();
                     break;

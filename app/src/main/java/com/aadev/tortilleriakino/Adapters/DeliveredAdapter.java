@@ -14,30 +14,27 @@ import com.aadev.tortilleriakino.R;
 
 import java.util.ArrayList;
 
-public class SellAdapter extends RecyclerView.Adapter<SellAdapter.ViewHolder> {
+public class DeliveredAdapter extends RecyclerView.Adapter<DeliveredAdapter.ViewHolder> {
 
     private ArrayList<Clients> clientsList;
-    private int layout;
-    private SellAdapter.OnItemClickListener itemClickListener;
-    private SellAdapter.OnButtonClickListener buttonClickListener;
 
-    public SellAdapter(ArrayList<Clients> clientsList,int layout, OnItemClickListener itemClickListener, OnButtonClickListener buttonClickListener) {
-        this.layout=layout;
+    private DeliveredAdapter.OnItemClickListener itemClickListener;
+
+    public DeliveredAdapter(ArrayList<Clients> clientsList, OnItemClickListener itemClickListener) {
         this.clientsList = clientsList;
         this.itemClickListener = itemClickListener;
-        this.buttonClickListener = buttonClickListener;
     }
 
     @NonNull
     @Override
-    public SellAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DeliveredAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(layout, parent, false));
+                .inflate(R.layout.item_client_deliverd, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SellAdapter.ViewHolder holder, int position) {
-        holder.bind(clientsList.get(position), itemClickListener, buttonClickListener);
+    public void onBindViewHolder(@NonNull DeliveredAdapter.ViewHolder holder, int position) {
+        holder.bind(clientsList.get(position), itemClickListener);
     }
 
     @Override
@@ -47,15 +44,13 @@ public class SellAdapter extends RecyclerView.Adapter<SellAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView clientName;
-        Button orderButton;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             clientName = itemView.findViewById(R.id.item_client_sell_name);
-            orderButton = itemView.findViewById(R.id.buutton_order_rv);
         }
 
-        void bind(final Clients clients, final OnItemClickListener itemClickListener, final OnButtonClickListener buttonClickListener) {
+        void bind(final Clients clients, final OnItemClickListener itemClickListener) {
             clientName.setText(clients.getClient_name());
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -64,14 +59,6 @@ public class SellAdapter extends RecyclerView.Adapter<SellAdapter.ViewHolder> {
                     itemClickListener.onItemClick(clients, getAdapterPosition());
                 }
             });
-
-            orderButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    buttonClickListener.onItemClick(clients, getAdapterPosition());
-                }
-            });
-
         }
     }
 
@@ -79,7 +66,4 @@ public class SellAdapter extends RecyclerView.Adapter<SellAdapter.ViewHolder> {
         void onItemClick(Clients clients, int position);
     }
 
-    public interface OnButtonClickListener {
-        void onItemClick(Clients clients, int position);
-    }
 }

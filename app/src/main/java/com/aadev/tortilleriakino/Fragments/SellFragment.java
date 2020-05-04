@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aadev.tortilleriakino.Adapters.SellAdapter;
 import com.aadev.tortilleriakino.Classes.Clients;
+import com.aadev.tortilleriakino.Classes.Keys;
 import com.aadev.tortilleriakino.ClientViewActivity;
 import com.aadev.tortilleriakino.OrderActivity;
 import com.aadev.tortilleriakino.R;
@@ -46,12 +47,24 @@ public class SellFragment extends Fragment {
         clientsList = this.getClientsInfo();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
-        mAdapter = new SellAdapter(clientsList, new SellAdapter.OnItemClickListener() {
+        mAdapter = new SellAdapter(clientsList, R.layout.item_client_sell, new SellAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Clients client, int position) {
                 Intent orderAct = new Intent(inflater.getContext(), ClientViewActivity.class);
-                orderAct.putExtra("CLIENT", client.getClient_name());
-                orderAct.putExtra("DEFAULTS", new int[]{1, 2, 3});
+                int[] list = new int[]{client.getDefaults().get(0), client.getDefaults().get(2), client.getDefaults().get(2)};
+                orderAct.putExtra(new Keys().getCLIENT_KEY(), client.getClient_name());
+                orderAct.putExtra(new Keys().getDEFAULT_VALUES_KEY(), list);
+                orderAct.putExtra(new Keys().getDOC_REF_KEY(), client.getDoc_ref());
+                startActivity(orderAct);
+            }
+        }, new SellAdapter.OnButtonClickListener() {
+            @Override
+            public void onItemClick(Clients client, int position) {
+                Intent orderAct = new Intent(inflater.getContext(), OrderActivity.class);
+                int[] list = new int[]{client.getDefaults().get(0), client.getDefaults().get(2), client.getDefaults().get(2)};
+                orderAct.putExtra(new Keys().getCLIENT_KEY(), client.getClient_name());
+                orderAct.putExtra(new Keys().getDEFAULT_VALUES_KEY(), list);
+                orderAct.putExtra(new Keys().getDOC_REF_KEY(), client.getDoc_ref());
                 startActivity(orderAct);
             }
         });
@@ -75,6 +88,7 @@ public class SellFragment extends Fragment {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                             Clients query = documentSnapshot.toObject(Clients.class);
+                            query.setDoc_ref(documentSnapshot.getId());
                             clientsList.add(query);
                             mAdapter.notifyDataSetChanged();
                             mRecyclerView.setVisibility(View.VISIBLE);
