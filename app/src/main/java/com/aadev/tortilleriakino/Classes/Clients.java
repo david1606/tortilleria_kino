@@ -24,6 +24,12 @@ public class Clients {
         this.doc_ref = doc_ref;
     }
 
+    public Clients(String clientID, String client_name, List<Integer> defaults) {
+        this.clientID = clientID;
+        this.client_name = client_name;
+        this.defaults = defaults;
+    }
+
     public String getDoc_ref() {
         return doc_ref;
     }
