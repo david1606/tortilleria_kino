@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aadev.tortilleriakino.Adapters.SellAdapter;
+import com.aadev.tortilleriakino.Adapters.OrderAdapter;
 import com.aadev.tortilleriakino.Classes.Clients;
 import com.aadev.tortilleriakino.Classes.Keys;
 import com.aadev.tortilleriakino.ClientViewActivity;
@@ -62,7 +62,7 @@ public class SellFragment extends Fragment {
         clientsList = this.getClientsInfo();
         // Toast.makeText(inflater.getContext(), "User:" + UID, Toast.LENGTH_SHORT).show();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(inflater.getContext());
-        mAdapter = new SellAdapter(clientsList, R.layout.item_client_sell, new SellAdapter.OnItemClickListener() {
+        mAdapter = new OrderAdapter(clientsList, R.layout.item_client_sell, new OrderAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Clients client, int position) {
                 Intent orderAct = new Intent(inflater.getContext(), ClientViewActivity.class);
@@ -82,7 +82,7 @@ public class SellFragment extends Fragment {
                 orderAct.putExtra(new Keys().getDOC_REF_KEY(), client.getDoc_ref());
                 startActivity(orderAct);
             }
-        }, new SellAdapter.OnButtonClickListener() {
+        }, new OrderAdapter.OnButtonClickListener() {
             @Override
             public void onItemClick(Clients client, int position) {
                 Intent orderAct = new Intent(inflater.getContext(), OrderActivity.class);

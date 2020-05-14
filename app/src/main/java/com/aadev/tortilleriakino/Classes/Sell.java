@@ -9,14 +9,15 @@ public class Sell {
     private @ServerTimestamp
     Date sell_date;
     private Map<String, Object> articles;
-    private String total;
+    private double total;
 
-    public Sell(Date sell_date, Map<String, Integer> articles, String total) {
+    public Sell(Date sell_date, Map<String, Object> articles, double total) {
         this.sell_date = sell_date;
+        this.articles = articles;
         this.total = total;
     }
 
-    public Sell() {
+    public Sell(){
 
     }
 
@@ -28,11 +29,19 @@ public class Sell {
         this.sell_date = sell_date;
     }
 
-    public String getTotal() {
+    public Map<String, Object> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(Map<String, Object> articles) {
+        this.articles = articles;
+    }
+
+    public double getTotal() {
         return total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(double total) {
         this.total = total;
     }
 }

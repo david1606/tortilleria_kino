@@ -2,10 +2,10 @@ package com.aadev.tortilleriakino;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,24 +13,29 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aadev.tortilleriakino.Adapters.ItemsAdapter;
+import com.aadev.tortilleriakino.Adapters.ArticlesAdapter;
 import com.aadev.tortilleriakino.Classes.Articles;
 import com.aadev.tortilleriakino.Classes.Keys;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class OrderActivity extends AppCompatActivity {
     private String client, docRef;
     private int[] defaults;
-    private ArrayList<Articles> articels = new ArrayList<>(), articlesTackOut = new ArrayList<>();
+    private ArrayList<Articles> articels = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private TextView totalET;
@@ -53,7 +58,7 @@ public class OrderActivity extends AppCompatActivity {
             clientName.setText(client);
         }
 
-        saveArticles();
+        articels = saveArticles();
 
 
         totalET.setText("$".concat(String.valueOf(getTotalPrice())));
@@ -63,12 +68,6 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveInfo();
-                Intent orderAct = new Intent(OrderActivity.this, ClientViewActivity.class);
-                orderAct.putExtra(new Keys().getCLIENT_KEY(), client);
-                orderAct.putExtra(new Keys().getDEFAULT_VALUES_KEY(), defaults);
-                orderAct.putExtra(new Keys().getDOC_REF_KEY(), docRef);
-                startActivity(orderAct);
-
             }
         });
     }
@@ -81,37 +80,37 @@ public class OrderActivity extends AppCompatActivity {
 
         Map<String, Object> articlesToSave = new HashMap<>();
         if (articels.get(0).getQuantity() != 0) {
-            articlesToSave.put(articels.get(0).getArticle(), articels.get(0).getQuantity());
+            articlesToSave.put(articels.get(0).getCode(), articels.get(0).getQuantity());
         }
         if (articels.get(1).getQuantity() != 0) {
-            articlesToSave.put(articels.get(1).getArticle(), articels.get(1).getQuantity());
+            articlesToSave.put(articels.get(1).getCode(), articels.get(1).getQuantity());
         }
         if (articels.get(2).getQuantity() != 0) {
-            articlesToSave.put(articels.get(2).getArticle(), articels.get(2).getQuantity());
+            articlesToSave.put(articels.get(2).getCode(), articels.get(2).getQuantity());
         }
         if (articels.get(3).getQuantity() != 0) {
-            articlesToSave.put(articels.get(3).getArticle(), articels.get(3).getQuantity());
+            articlesToSave.put(articels.get(3).getCode(), articels.get(3).getQuantity());
         }
         if (articels.get(4).getQuantity() != 0) {
-            articlesToSave.put(articels.get(4).getArticle(), articels.get(4).getQuantity());
+            articlesToSave.put(articels.get(4).getCode(), articels.get(4).getQuantity());
         }
         if (articels.get(5).getQuantity() != 0) {
-            articlesToSave.put(articels.get(5).getArticle(), articels.get(5).getQuantity());
+            articlesToSave.put(articels.get(5).getCode(), articels.get(5).getQuantity());
         }
         if (articels.get(6).getQuantity() != 0) {
-            articlesToSave.put(articels.get(6).getArticle(), articels.get(6).getQuantity());
+            articlesToSave.put(articels.get(6).getCode(), articels.get(6).getQuantity());
         }
         if (articels.get(7).getQuantity() != 0) {
-            articlesToSave.put(articels.get(7).getArticle(), articels.get(7).getQuantity());
+            articlesToSave.put(articels.get(7).getCode(), articels.get(7).getQuantity());
         }
         if (articels.get(8).getQuantity() != 0) {
-            articlesToSave.put(articels.get(8).getArticle(), articels.get(8).getQuantity());
+            articlesToSave.put(articels.get(8).getCode(), articels.get(8).getQuantity());
         }
         if (articels.get(9).getQuantity() != 0) {
-            articlesToSave.put(articels.get(9).getArticle(), articels.get(9).getQuantity());
+            articlesToSave.put(articels.get(9).getCode(), articels.get(9).getQuantity());
         }
         if (articels.get(10).getQuantity() != 0) {
-            articlesToSave.put(articels.get(10).getArticle(), articels.get(10).getQuantity());
+            articlesToSave.put(articels.get(10).getCode(), articels.get(10).getQuantity());
         }
 
 
@@ -119,27 +118,25 @@ public class OrderActivity extends AppCompatActivity {
 
         info.put("total", getTotalPrice());
 
-        db.collection("clients/" + docRef + "/ventas/")
+        db.collection("clients/" + docRef + "/sells/")
                 .add(info)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d("TAG", "write done");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(OrderActivity.this, documentReference.getId(), Toast.LENGTH_SHORT).show();
+                        Intent orderAct = new Intent(OrderActivity.this, ViewSellActivity.class);
+                        orderAct.putExtra(new Keys().getCLIENT_KEY(), client);
+                        orderAct.putExtra(new Keys().getDEFAULT_VALUES_KEY(), defaults);
+                        orderAct.putExtra(new Keys().getDOC_REF_KEY(), docRef);
+                        orderAct.putExtra(new Keys().getSellDocRef(), documentReference.getId());
+                        startActivity(orderAct);
                     }
                 });
-
-
     }
-
 
     private void createRecyclerView(ArrayList<Articles> arrayList) {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new ItemsAdapter(arrayList, new ItemsAdapter.OnAddItemClickListener() {
+        mAdapter = new ArticlesAdapter(arrayList, new ArticlesAdapter.OnAddItemClickListener() {
             @Override
             public void onItemClick(Articles articles, int position) {
                 int newQuantity = articles.getQuantity() + 1;
@@ -147,7 +144,7 @@ public class OrderActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
                 totalET.setText("$".concat(String.valueOf(getTotalPrice())));
             }
-        }, new ItemsAdapter.OnRemoveItemClickListener() {
+        }, new ArticlesAdapter.OnRemoveItemClickListener() {
             @Override
             public void onItemClick(Articles articles, int position) {
                 if (articles.getQuantity() != 0) {
@@ -186,17 +183,27 @@ public class OrderActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-    private void saveArticles() {
-        articels.add(new Articles("Tortillas de harina 12pz", 12, defaults[0]));
-        articels.add(new Articles("Tortillas de harina 20pz", 20, defaults[1]));
-        articels.add(new Articles("Tortillas de Maíz 700g", 14, defaults[2]));
-        articels.add(new Articles("Totopo Natural 360g", 13, defaults[3]));
-        articels.add(new Articles("Totopo Sazonado", 17, defaults[4]));
-        articels.add(new Articles("Chorizo Don Ely 250g", 13, defaults[5]));
-        articels.add(new Articles("Cartera de Machaca 10/50g", 120, defaults[6]));
-        articels.add(new Articles("Machaca Kino 100g", 23, defaults[7]));
-        articels.add(new Articles("Tortilla Maiz 1kg", 15, defaults[8]));
-        articels.add(new Articles("Totopo Natural 700g", 20, defaults[9]));
-        articels.add(new Articles("Tortillas taquera 20pz", 16, defaults[10]));
+    private ArrayList<Articles> saveArticles() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final Query query = db.collection("articles");
+        return new ArrayList<Articles>() {{
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        int i = 0;
+                        for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                            Articles query = documentSnapshot.toObject(Articles.class);
+                            query.setQuantity(defaults[i]);
+                            i++;
+                            articels.add(query);
+                            mAdapter.notifyDataSetChanged();
+                            mRecyclerView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            });
+        }};
+
     }
 }

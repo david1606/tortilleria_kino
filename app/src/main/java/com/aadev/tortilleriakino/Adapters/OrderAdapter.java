@@ -14,14 +14,14 @@ import com.aadev.tortilleriakino.R;
 
 import java.util.ArrayList;
 
-public class SellAdapter extends RecyclerView.Adapter<SellAdapter.ViewHolder> {
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
 
     private ArrayList<Clients> clientsList;
     private int layout;
-    private SellAdapter.OnItemClickListener itemClickListener;
-    private SellAdapter.OnButtonClickListener buttonClickListener;
+    private OrderAdapter.OnItemClickListener itemClickListener;
+    private OrderAdapter.OnButtonClickListener buttonClickListener;
 
-    public SellAdapter(ArrayList<Clients> clientsList,int layout, OnItemClickListener itemClickListener, OnButtonClickListener buttonClickListener) {
+    public OrderAdapter(ArrayList<Clients> clientsList, int layout, OnItemClickListener itemClickListener, OnButtonClickListener buttonClickListener) {
         this.layout=layout;
         this.clientsList = clientsList;
         this.itemClickListener = itemClickListener;
@@ -30,13 +30,13 @@ public class SellAdapter extends RecyclerView.Adapter<SellAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public SellAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public OrderAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(layout, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SellAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OrderAdapter.ViewHolder holder, int position) {
         holder.bind(clientsList.get(position), itemClickListener, buttonClickListener);
     }
 

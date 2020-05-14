@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.aadev.tortilleriakino.Classes.Articles;
 import com.aadev.tortilleriakino.Classes.Clients;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,11 +19,28 @@ import java.util.Arrays;
 
 public class TempoActivity extends AppCompatActivity {
     private ArrayList<Clients> clients;
+    private ArrayList<Articles> articles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tempo);
+
+        articles = new ArrayList<Articles>() {{
+        }};
+
+        articles.add(new Articles("Tortillas de harina 12pz", 12, "th12"));
+        articles.add(new Articles("Tortillas de harina 20pz", 20, "th20"));
+        articles.add(new Articles("Tortillas de Maíz 700g", 14, "tm700"));
+        articles.add(new Articles("Totopo Natural 360g", 13, "tm360"));
+        articles.add(new Articles("Totopo Sazonado", 17, "tops"));
+        articles.add(new Articles("Chorizo Don Ely 250g", 13, "cde"));
+        articles.add(new Articles("Cartera de Machaca 10/50g", 120, "cm1050"));
+        articles.add(new Articles("Machaca Kino 100g", 23,"mk"));
+        articles.add(new Articles("Tortilla Maiz 1kg", 15,"tm1"));
+        articles.add(new Articles("Totopo Natural 700g", 20,"topn"));
+        articles.add(new Articles("Tortillas taquera 20pz", 16,"tht"));
+
 
         clients = new ArrayList<Clients>() {{
         }};
@@ -245,9 +263,9 @@ public class TempoActivity extends AppCompatActivity {
     private void writeInfo() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        for (int i = 0; i < clients.size(); i++) {
-            db.collection("clients")
-                    .add(clients.get(i))
+        for (int i = 0; i < articles.size(); i++) {
+            db.collection("articles")
+                    .add(articles.get(i))
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {

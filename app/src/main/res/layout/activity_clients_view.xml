@@ -42,7 +42,7 @@
             style="@style/text_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="20dp"
             android:text="Pedidos" />
 
         <RelativeLayout
@@ -52,31 +52,20 @@
             android:layout_margin="5dp"
             android:background="@drawable/card_foreground">
 
-            <TextView
-                android:id="@+id/text"
-                style="@style/text_subtitle"
+            <ProgressBar
+                android:id="@+id/progress_bar_orders"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:text="No hay pedidos realizados" />
+                android:layout_centerInParent="true" />
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_below="@id/text"
-                android:layout_marginBottom="10dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_remove_circle"
-                android:tint="@color/colorWhite" />
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sells_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:visibility="gone" />
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/orders_text"
-            android:layout_margin="5dp" />
 
     </RelativeLayout>
 

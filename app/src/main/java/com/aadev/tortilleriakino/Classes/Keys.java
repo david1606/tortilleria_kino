@@ -16,4 +16,8 @@ public class Keys {
     public String getDEFAULT_VALUES_KEY() {
         return "DEFAULT_VALUES_KEY";
     }
+
+    public String getSellDocRef() {
+        return "SELL_DOC_REF_KEY";
+    }
 }

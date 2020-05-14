@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryLight">
+    android:background="@drawable/card_light_background_ripple">
 
     <RelativeLayout
         android:id="@+id/article"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="55dp">
 
         <ImageView
             android:id="@+id/image_view"
@@ -16,12 +16,12 @@
             android:layout_height="23dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:src="@drawable/ic_category"
+            android:src="@drawable/ic_date"
             android:tint="@color/colorWhite"
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/text_view_product_name"
+            android:id="@+id/text_view_sell_date"
             style="@style/text_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,8 +33,8 @@
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/text_view_price"
-            style="@style/text_body"
+            android:id="@+id/text_view_total_price"
+            style="@style/text_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -43,50 +43,17 @@
             android:text="$10"
             android:textColor="@color/colorWhite"
             tools:ignore="HardcodedText" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/control"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/article">
 
         <ImageView
-            android:id="@+id/add_button"
-            style="@style/order_action_buttons"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_add_circle"
-            android:tint="@color/colorWhite"
-            tools:ignore="ContentDescription" />
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/text_view_total_price"
+            android:src="@drawable/ic_attach_money"
+            android:tint="@color/colorWhite" />
 
-        <TextView
-            android:id="@+id/edit_text_number_articles"
-            style="@style/text_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_toStartOf="@+id/add_button"
-            android:text="10"
-            android:textColor="@color/colorWhite"
-            tools:ignore="HardcodedText" />
-
-        <ImageView
-            android:id="@+id/remove_button"
-            style="@style/order_action_buttons"
-            android:layout_toStartOf="@id/edit_text_number_articles"
-            android:src="@drawable/ic_remove_circle"
-            android:tint="@color/colorWhite"
-            tools:ignore="ContentDescription" />
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/control"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:background="@color/colorPrimary" />
 </RelativeLayout>

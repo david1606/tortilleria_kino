@@ -14,15 +14,15 @@ import com.aadev.tortilleriakino.R;
 
 import java.util.ArrayList;
 
-public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
+public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
 
     private ArrayList<Articles> articles;
     private OnAddItemClickListener addItemClickListener;
     private OnRemoveItemClickListener removeItemClickListener;
 
-    public ItemsAdapter(ArrayList<Articles> articles,
-                        OnAddItemClickListener addItemClickListener,
-                        OnRemoveItemClickListener removeItemClickListener) {
+    public ArticlesAdapter(ArrayList<Articles> articles,
+                           OnAddItemClickListener addItemClickListener,
+                           OnRemoveItemClickListener removeItemClickListener) {
         this.articles = articles;
         this.addItemClickListener = addItemClickListener;
         this.removeItemClickListener = removeItemClickListener;
@@ -30,13 +30,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     @NonNull
     @Override
-    public ItemsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ArticlesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_products, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ArticlesAdapter.ViewHolder holder, int position) {
         holder.bind(articles.get(position), addItemClickListener, removeItemClickListener);
     }
 

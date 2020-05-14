@@ -4,13 +4,25 @@ public class Articles {
     private String article;
     private double price;
     private int quantity;
+    private String code;
 
-    public Articles(String article, double price, int quantity) {
-        this.article = article;
-        this.price = price;
-        this.quantity = quantity;
+    public Articles() {
+
     }
 
+    public Articles(String article, double price, String code) {
+        this.article = article;
+        this.price = price;
+        this.code = code;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getArticle() {
         return article;
