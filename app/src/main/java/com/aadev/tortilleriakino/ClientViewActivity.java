@@ -85,7 +85,7 @@ public class ClientViewActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
                             Sell query = documentSnapshot.toObject(Sell.class);
-                            sellDocRef = documentSnapshot.getId();
+                            query.setDocRef(documentSnapshot.getId());
                             item.add(query);
                             mAdapter.notifyDataSetChanged();
                             mRecyclerView.setVisibility(View.VISIBLE);
@@ -107,7 +107,7 @@ public class ClientViewActivity extends AppCompatActivity {
                 Intent orderAct = new Intent(ClientViewActivity.this, ViewSellActivity.class);
                 orderAct.putExtra(new Keys().getCLIENT_KEY(), client);
                 orderAct.putExtra(new Keys().getDEFAULT_VALUES_KEY(), defaults);
-                orderAct.putExtra(new Keys().getSellDocRef(), sellDocRef);
+                orderAct.putExtra(new Keys().getSellDocRef(), item.getDocRef());
                 orderAct.putExtra(new Keys().getDOC_REF_KEY(), docRef);
                 startActivity(orderAct);
             }

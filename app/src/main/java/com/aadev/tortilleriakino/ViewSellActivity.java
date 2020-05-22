@@ -28,6 +28,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 public class ViewSellActivity extends AppCompatActivity {
@@ -50,6 +51,7 @@ public class ViewSellActivity extends AppCompatActivity {
         if (bundle != null) {
             client = bundle.getString(new Keys().getCLIENT_KEY());
             docRef = bundle.getString(new Keys().getDOC_REF_KEY());
+            sellDocRef = bundle.getString(new Keys().getSellDocRef());
             Log.w("Key", "Client: " + client + " docRef: " + docRef);
             clientName.setText(client);
             Toast.makeText(this, docRef, Toast.LENGTH_SHORT).show();
@@ -79,43 +81,51 @@ public class ViewSellActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     assert document != null;
                     if (document.exists()) {
+                        Toast.makeText(ViewSellActivity.this, "Exists", Toast.LENGTH_SHORT).show();
                         Sell object = document.toObject(Sell.class);
+                        //Map<Object, String> map = new Map<>();
+
                         totalPrice.setText(String.valueOf(object.getTotal()));
+
+
+
                     }
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ViewSellActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private ArrayList<Articles> getClientsInfo() {
+    private void getClientsInfo() {
 
         Log.w("Query log", "IN query");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final Query feedQuery = db.collection("clients/" + docRef + "/sells/" + sellDocRef);
+        feedQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                        Sell query = documentSnapshot.toObject(Sell.class);
 
-        final Query feedQuery = db.collection("clients/sells/" + sellDocRef);
 
-        return new ArrayList<Articles>() {{
-            feedQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-                            Articles query = documentSnapshot.toObject(Articles.class);
-                            articlesList.add(query);
-                            mAdapter.notifyDataSetChanged();
-                            mRecyclerView.setVisibility(View.VISIBLE);
-                        }
-                    } else {
-                        Log.w("Query log", "Query failed");
+
                     }
+                } else {
+                    Log.w("Query log", "Query failed");
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(ViewSellActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }};
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ViewSellActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 

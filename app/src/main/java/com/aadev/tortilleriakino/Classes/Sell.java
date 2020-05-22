@@ -8,17 +8,27 @@ import java.util.Map;
 public class Sell {
     private @ServerTimestamp
     Date sell_date;
+    private String docRef;
     private Map<String, Object> articles;
     private double total;
 
-    public Sell(Date sell_date, Map<String, Object> articles, double total) {
+    public Sell(Date sell_date, String docRef, Map<String, Object> articles, double total) {
         this.sell_date = sell_date;
+        this.docRef = docRef;
         this.articles = articles;
         this.total = total;
     }
 
     public Sell(){
 
+    }
+
+    public String getDocRef() {
+        return docRef;
+    }
+
+    public void setDocRef(String docRef) {
+        this.docRef = docRef;
     }
 
     public Date getSell_date() {
