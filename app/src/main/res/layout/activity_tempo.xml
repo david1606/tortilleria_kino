@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="160dp"
         android:onClick="clickone"
-        android:text="One thing"
+        android:text="Clients"
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="39dp" />
 
@@ -25,7 +25,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="160dp"
         android:onClick="clicktwo"
-        android:text="another"
+        android:text="Articles"
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="39dp" />
 

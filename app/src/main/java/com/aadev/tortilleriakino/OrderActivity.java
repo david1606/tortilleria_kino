@@ -2,6 +2,7 @@ package com.aadev.tortilleriakino;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,9 +18,12 @@ import com.aadev.tortilleriakino.Adapters.ArticlesAdapter;
 import com.aadev.tortilleriakino.Classes.Articles;
 import com.aadev.tortilleriakino.Classes.Keys;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -33,18 +37,25 @@ import java.util.Map;
 import java.util.Objects;
 
 public class OrderActivity extends AppCompatActivity {
-    private String client, docRef;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser mUser;
+    private String client, docRef, sellDocumentReference;
     private int[] defaults;
     private ArrayList<Articles> articels = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private TextView totalET;
 
+    private ArrayList<String> articlesDocRef = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
+        mUser = mAuth.getCurrentUser();
         mRecyclerView = findViewById(R.id.recycler_view_order);
         TextView clientName = findViewById(R.id.client_name);
         totalET = findViewById(R.id.total_text);
@@ -67,55 +78,68 @@ public class OrderActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveInfo();
+                saveSellInformation();
+
+                Intent orderAct = new Intent(OrderActivity.this, ViewSellActivity.class);
+                orderAct.putExtra(new Keys().getCLIENT_KEY(), client);
+                orderAct.putExtra(new Keys().getDEFAULT_VALUES_KEY(), defaults);
+                orderAct.putExtra(new Keys().getDOC_REF_KEY(), docRef);
+                orderAct.putExtra(new Keys().getSellDocRef(), sellDocumentReference);
+                startActivity(orderAct);
             }
         });
     }
 
-    private void saveInfo() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private void saveArticlesArray() {
+        DocumentReference washingtonRef = db.document("clients/" + docRef + "/sells/" + sellDocumentReference);
+        washingtonRef
+                .update("articles", articlesDocRef)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("TAG", "Error updating document", e);
+                    }
+                });
+    }
 
+
+    private void saveSoldArticles() {
+        for (int i = 0; i < articels.size(); i++) {
+            Articles sold = articels.get(i);
+            if (sold.getQuantity() != 0){
+                Map<String, Object> info = new HashMap<>();
+                info.put("article", sold.getArticle());
+                info.put("quantity", sold.getQuantity());
+                info.put("sell", sellDocumentReference);
+                info.put("price", sold.getPrice());
+                info.put("article_total_sell", (sold.getPrice() * sold.getQuantity()));
+                db.collection("clients/" + docRef + "/sold_articles/")
+                        .add(info)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                articlesDocRef.add(documentReference.getId());
+                                saveArticlesArray();
+                            }
+                        });
+            }
+
+
+
+        }
+
+    }
+
+    private void saveSellInformation() {
         Map<String, Object> info = new HashMap<>();
         info.put("sell_date", new Timestamp(new Date()));
-
-        Map<String, Object> articlesToSave = new HashMap<>();
-        if (articels.get(0).getQuantity() != 0) {
-            articlesToSave.put(articels.get(0).getCode(), articels.get(0).getQuantity());
-        }
-        if (articels.get(1).getQuantity() != 0) {
-            articlesToSave.put(articels.get(1).getCode(), articels.get(1).getQuantity());
-        }
-        if (articels.get(2).getQuantity() != 0) {
-            articlesToSave.put(articels.get(2).getCode(), articels.get(2).getQuantity());
-        }
-        if (articels.get(3).getQuantity() != 0) {
-            articlesToSave.put(articels.get(3).getCode(), articels.get(3).getQuantity());
-        }
-        if (articels.get(4).getQuantity() != 0) {
-            articlesToSave.put(articels.get(4).getCode(), articels.get(4).getQuantity());
-        }
-        if (articels.get(5).getQuantity() != 0) {
-            articlesToSave.put(articels.get(5).getCode(), articels.get(5).getQuantity());
-        }
-        if (articels.get(6).getQuantity() != 0) {
-            articlesToSave.put(articels.get(6).getCode(), articels.get(6).getQuantity());
-        }
-        if (articels.get(7).getQuantity() != 0) {
-            articlesToSave.put(articels.get(7).getCode(), articels.get(7).getQuantity());
-        }
-        if (articels.get(8).getQuantity() != 0) {
-            articlesToSave.put(articels.get(8).getCode(), articels.get(8).getQuantity());
-        }
-        if (articels.get(9).getQuantity() != 0) {
-            articlesToSave.put(articels.get(9).getCode(), articels.get(9).getQuantity());
-        }
-        if (articels.get(10).getQuantity() != 0) {
-            articlesToSave.put(articels.get(10).getCode(), articels.get(10).getQuantity());
-        }
-
-
-        info.put("sell_articles", articlesToSave);
-
+        info.put("seller", mUser.getUid());
         info.put("total", getTotalPrice());
 
         db.collection("clients/" + docRef + "/sells/")
@@ -123,13 +147,10 @@ public class OrderActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        sellDocumentReference = documentReference.getId();
+                        saveSoldArticles();
                         Toast.makeText(OrderActivity.this, documentReference.getId(), Toast.LENGTH_SHORT).show();
-                        Intent orderAct = new Intent(OrderActivity.this, ViewSellActivity.class);
-                        orderAct.putExtra(new Keys().getCLIENT_KEY(), client);
-                        orderAct.putExtra(new Keys().getDEFAULT_VALUES_KEY(), defaults);
-                        orderAct.putExtra(new Keys().getDOC_REF_KEY(), docRef);
-                        orderAct.putExtra(new Keys().getSellDocRef(), documentReference.getId());
-                        startActivity(orderAct);
+
                     }
                 });
     }

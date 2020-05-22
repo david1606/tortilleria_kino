@@ -5,6 +5,7 @@ public class Articles {
     private double price;
     private int quantity;
     private String code;
+    private double article_total_sell;
 
     public Articles() {
 
@@ -14,6 +15,14 @@ public class Articles {
         this.article = article;
         this.price = price;
         this.code = code;
+    }
+
+    public double getArticle_total_sell() {
+        return article_total_sell;
+    }
+
+    public void setArticle_total_sell(double article_total_sell) {
+        this.article_total_sell = article_total_sell;
     }
 
     public String getCode() {

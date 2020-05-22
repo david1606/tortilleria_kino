@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +28,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -37,7 +40,7 @@ public class ViewSellActivity extends AppCompatActivity {
     private ArrayList<Articles> articlesList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    TextView totalPrice;
+    private TextView totalPrice, sellDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class ViewSellActivity extends AppCompatActivity {
 
         TextView clientName = findViewById(R.id.client_name);
         totalPrice = findViewById(R.id.total_view);
+        sellDate = findViewById(R.id.date_text_view);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -58,22 +62,22 @@ public class ViewSellActivity extends AppCompatActivity {
         }
 
         getInfo();
-        mRecyclerView = findViewById(R.id.recycler_view_sell);
-        //articlesList = this.getClientsInfo();
-        //RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        //mAdapter = new OrderViewAdapter(articlesList);
+        mRecyclerView = findViewById(R.id.items_order_view);
+        articlesList = this.getSoldArticles();
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new OrderViewAdapter(articlesList);
 
-//        mRecyclerView.setHasFixedSize(true);
-//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
 
     private void getInfo() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.document("clients/" + docRef + "/sells/" + sellDocRef);
+        final DocumentReference documentReference = db.document("clients/" + docRef + "/sells/" + sellDocRef);
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -83,12 +87,9 @@ public class ViewSellActivity extends AppCompatActivity {
                     if (document.exists()) {
                         Toast.makeText(ViewSellActivity.this, "Exists", Toast.LENGTH_SHORT).show();
                         Sell object = document.toObject(Sell.class);
-                        //Map<Object, String> map = new Map<>();
-
-                        totalPrice.setText(String.valueOf(object.getTotal()));
-
-
-
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm a");
+                        sellDate.setText(sdf.format(Objects.requireNonNull(document.getDate("sell_date"))));
+                        totalPrice.setText(String.valueOf(document.get("total")));
                     }
                 }
             }
@@ -100,31 +101,27 @@ public class ViewSellActivity extends AppCompatActivity {
         });
     }
 
-    private void getClientsInfo() {
-
+    private ArrayList<Articles> getSoldArticles() {
         Log.w("Query log", "IN query");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final Query feedQuery = db.collection("clients/" + docRef + "/sells/" + sellDocRef);
-        feedQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-                        Sell query = documentSnapshot.toObject(Sell.class);
-
-
-
+        final Query feedQuery = db.collection("clients/" + docRef + "/sold_articles").whereEqualTo("sell", sellDocRef);
+        return new ArrayList<Articles>() {{
+            feedQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
+                            Articles query = documentSnapshot.toObject(Articles.class);
+                            articlesList.add(query);
+                            mAdapter.notifyDataSetChanged();
+                            mRecyclerView.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        Log.w("Query log", "Query failed");
                     }
-                } else {
-                    Log.w("Query log", "Query failed");
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ViewSellActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
+        }};
 
     }
 

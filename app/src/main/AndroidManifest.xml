@@ -14,10 +14,7 @@
             android:theme="@style/AppTheme.noActionBar">
 
         </activity>
-        <activity android:name=".TempoActivity">
-
-        </activity>
-
+        <activity android:name=".TempoActivity"></activity>
         <activity
             android:name=".ClientViewActivity"
             android:theme="@style/AppTheme.noActionBar" />

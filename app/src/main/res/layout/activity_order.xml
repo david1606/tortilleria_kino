@@ -50,7 +50,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_order"
                 android:layout_width="match_parent"
+                tools:listitem="@layout/item_article_view"
                 android:layout_height="wrap_content"
+                tools:itemCount="5"
                 android:layout_margin="5dp" />
 
             <TextView
